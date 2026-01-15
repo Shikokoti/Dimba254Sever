@@ -21,9 +21,9 @@ def about():
     return "Get to know more about DIMBA254."
 
 #contact Us page
-
+@app.route ('/contact')
 def contact ():
-    return" Reach out to DIMBA254 for any inquiries."
+    return "Reach out to DIMBA254 for any inquiries."
 
 
 if __name__ == '__main__':
