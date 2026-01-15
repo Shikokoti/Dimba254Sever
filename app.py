@@ -25,6 +25,12 @@ def about():
 def contact ():
     return "Reach out to DIMBA254 for any inquiries."
 
+@app.route("/contact/<data>")
+def contact_form(data):
+ 
+    return f"Contact form submitted with data: {data}"
+
+
 
 #Aselect team undet the teams view teams/afc leopards
 @app.route('/teams/<team_name>')
