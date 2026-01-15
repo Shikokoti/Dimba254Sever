@@ -13,9 +13,17 @@ def index():
 #KPL TEAMS page
 @app.route ('/teams')
 def teams ():
-    return "This is the teams page"
+    return "2025/2026 Teams in the Kenyan Premier League"
 
+#About Us page
+@app.route ('/about')
+def about():
+    return "Get to know more about DIMBA254."
 
+#contact Us page
+
+def contact ():
+    return" Reach out to DIMBA254 for any inquiries."
 
 
 if __name__ == '__main__':
