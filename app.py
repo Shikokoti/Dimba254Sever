@@ -9,6 +9,14 @@ app = Flask(__name__)
 def index():
     return "Welcome to DIMBA254 Server"
 
+#adding views from other modules
+#KPL TEAMS page
+@app.route ('/teams')
+def teams ():
+    return "This is the teams page"
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
