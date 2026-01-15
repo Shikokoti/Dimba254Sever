@@ -26,5 +26,11 @@ def contact ():
     return "Reach out to DIMBA254 for any inquiries."
 
 
+#Aselect team undet the teams view teams/afc leopards
+@app.route('/teams/<team_name>')
+def team_detail(team_name):
+    return f"Details about the team: {team_name}"
+
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
