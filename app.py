@@ -31,6 +31,15 @@ def contact_form(data):
     return f"Contact form submitted with data: {data}"
 
 
+@app.route("/players/<player_name>")
+def player_list(player_name):
+    return f"This Player plays for the Kenyan Premier League: {player_name}"
+
+@app.route("/players")
+def players():
+    return f"List of players in the Kenyan Premier League"
+
+
 
 #Aselect team undet the teams view teams/afc leopards
 @app.route('/teams/<team_name>')
