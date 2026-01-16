@@ -39,7 +39,9 @@ def player_list(player_name):
 def players():
     return f"List of players in the Kenyan Premier League"
 
-
+@app.route("/stats/<KPL_STATS>")
+def stats_view(KPL_STATS):
+    return f"Statistics of the Kenyan Premier League: {KPL_STATS}"
 
 @app.route ("/stats")
 def stats ():
