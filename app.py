@@ -41,6 +41,12 @@ def players():
 
 
 
+@app.route ("/stats")
+def stats ():
+    return "Statistics of the Kenyan Premier League"
+
+
+
 #Aselect team undet the teams view teams/afc leopards
 @app.route('/teams/<team_name>')
 def team_detail(team_name):
