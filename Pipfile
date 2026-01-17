@@ -12,6 +12,7 @@ pytest = "==8.3.5"
 tomli = "==2.2.1"
 typing-extensions = "==4.13.2"
 flask = "*"
+flask-sqlalchemy = "*"
 
 [dev-packages]
 
@@ -20,4 +21,3 @@ python_version = "3.8"
 
 [scripts]
 start = "python app.py"
-server = "flask run"
