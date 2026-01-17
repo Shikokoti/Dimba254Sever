@@ -41,7 +41,7 @@ def players():
 
 @app.route("/stats/<KPL_STATS>")
 def stats_view(KPL_STATS):
-    return f"Statistics of the Kenyan Premier League: {KPL_STATS}"
+    return f"Statistics of the Kenyan Premier League:, is available here. fot this  team {KPL_STATS}"
 
 @app.route ("/stats")
 def stats ():
