@@ -19,7 +19,9 @@ class Player (db.Model):
         team_position = db.Column (db.String(50), nullable = False)
         founded_year = db.Column (db.Integer, nullable = False)
         stadium = db.Column (db.String(100), nullable = False)
+        signings = db.relationship ( 'Player', back_populates='Team', back_populates = "Coach", cascade="all, delete-orphan")
 
+        
 
         def __repr__(self):
             return f"<Team {self.name} - Founded: {self.founded_year} - Stadium: {self.stadium} - Position: {self.team_position}>"
@@ -28,8 +30,8 @@ class Player (db.Model):
 class Coach (db.Model):
     id = db.Column (db.Integer, primary_key = True)
     name = db.Column (db.String(100), nullable = False)
-    team = db.Column (db.String(100), nullable = False)
+    team_id = db.Column (db.String(100), db.ForeignKey('team.id'), nullable = False)
     experience_years = db.Column (db.Integer, default = 0)
 
     def __repr__(self):
-        return f"<Coach {self.name} - Team: {self.team} - Experience: {self.experience_years} years>"
+        return f"<Coach {self.name} - Team: {self.team_id} - Experience: {self.experience_years} years>"
