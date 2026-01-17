@@ -22,4 +22,14 @@ class Player (db.Model):
 
 
         def __repr__(self):
-            return f"<Team {self.name} - Founded: {self.founded_year} - Stadium: {self.stadium}>"
+            return f"<Team {self.name} - Founded: {self.founded_year} - Stadium: {self.stadium} - Position: {self.team_position}>"
+        
+#Creating a model for the coaches in the KPL
+class Coach (db.Model):
+    id = db.Column (db.Integer, primary_key = True)
+    name = db.Column (db.String(100), nullable = False)
+    team = db.Column (db.String(100), nullable = False)
+    experience_years = db.Column (db.Integer, default = 0)
+
+    def __repr__(self):
+        return f"<Coach {self.name} - Team: {self.team} - Experience: {self.experience_years} years>"
