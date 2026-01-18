@@ -8,7 +8,10 @@ app = Flask(__name__)
 #set up db resources 
 app.config ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dimba254.db"
 app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  #Setup a pin on the map
-db.init_app(app)
+db.init_app(app) #Initialize the db with the flask app instance
+
+with app.app_context():
+    db.create_all()  #Create the database tables
 
 @app.route('/') 
 def index():
