@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, send_from_directory, jsonify
 from models import db, Player, Team, Coach
 
 #create a Flask application Instance
@@ -6,7 +6,7 @@ from models import db, Player, Team, Coach
 app = Flask(__name__)
 
 #set up db resources 
-app.config ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dimba254.db"
+app.config ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dimba.db"
 app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  #Setup a pin on the map
 db.init_app(app) #Initialize the db with the flask app instance
 
@@ -52,6 +52,20 @@ def create_player():
     name = data.get("name")
     position = data.get("position")
     goals_scored = data.get("goals_scored", 0)
+    player = Player(name=name, position=position, goals_scored=goals_scored)
+
+    db.session.add(player)
+    db.session.commit()
+
+    return jsonify(player.to_dict()), 201 
+
+@app.route("/Players", methods=['GET'])
+def get_players():
+    players = Player.query.all()
+    players_data = [player.to_dict() for player in players]
+    return jsonify([player.to_dict() for player in players])
+
+
 
 
 
