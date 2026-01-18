@@ -1,4 +1,5 @@
 from flask import Flask
+from models import db, Player, Team, Coach
 
 #create a Flask application Instance
 
@@ -6,7 +7,8 @@ app = Flask(__name__)
 
 #set up db resources 
 app.config ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dimba254.db"
-
+app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  #Setup a pin on the map
+db.init_app(app)
 
 @app.route('/') 
 def index():
