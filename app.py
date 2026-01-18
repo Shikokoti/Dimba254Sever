@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from models import db, Player, Team, Coach
 
 #create a Flask application Instance
@@ -16,6 +16,9 @@ with app.app_context():
 @app.route('/') 
 def index():
     return "Welcome to DIMBA254 Server"
+
+
+
 
 #adding views from other modules
 #KPL TEAMS page
@@ -43,9 +46,15 @@ def contact_form(data):
 def player_list(player_name):
     return f"This Player plays for the Kenyan Premier League: {player_name}"
 
-@app.route("/players")
-def players():
-    return f"List of players in the Kenyan Premier League"
+@app.route("/players", methods=['POST'])
+def create_player():
+    data = request.get_json()
+    name = data.get("name")
+    position = data.get("position")
+    goals_scored = data.get("goals_scored", 0)
+
+
+
 
 @app.route("/stats/<KPL_STATS>")
 def stats_view(KPL_STATS):
