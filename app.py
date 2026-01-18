@@ -4,6 +4,9 @@ from flask import Flask
 
 app = Flask(__name__)
 
+#set up db resources 
+app.config ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dimba254.db"
+
 
 @app.route('/') 
 def index():

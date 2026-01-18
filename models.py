@@ -32,6 +32,7 @@ class Player(db.Model):
             "position": self.position,
             "goals_scored": self.goals_scored,
             "teams": [team.name for team in self.teams]
+            
         }
     
 
