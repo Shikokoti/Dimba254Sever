@@ -5,11 +5,10 @@ db = SQLAlchemy()
 #Creating a model for the players in the KPL
 
 player_team = db.Table(
-    "player_team",
-    db.Column("player_id", db.Integer, db.ForeignKey("player.id"), primary_key=True),
-    db.Column("team_id", db.Integer, db.ForeignKey("team.id"), primary_key=True)
+    'player_team',
+    db.Column('player_id', db.Integer, db.ForeignKey('player.id')),
+    db.Column('team_id', db.Integer, db.ForeignKey('team.id'))
 )
-
 
 class Player(db.Model):
     __tablename__ = "player"

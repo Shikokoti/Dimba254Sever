@@ -27,7 +27,7 @@ def index():
 def create_teams():
     data = request.get_json()
     if not data:
-        return jsonify({"error": "Invalid JSON"}), 400
+     return jsonify({"error": "Invalid JSON"}), 400
     name = data.get("name")
     league_position = data.get("league_position")
     founded_year = data.get("founded_year")
