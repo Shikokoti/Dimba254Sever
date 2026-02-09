@@ -29,8 +29,10 @@ def create_teams ():
     league_position = date.get("league_position")
     founded_year = date.get("founded_year")
     stadium = date.get("stadium")
-    team = Team(name=name, league_position=league_position, founded_year=founded_year,
-    return "2025/2026 Teams in the Kenyan Premier League"
+    team = Team(name=name, league_position=league_position, founded_year=founded_year, stadium=stadium)
+    db.session.add(team)
+    db.session.commit()
+    return jsonify(team.to_dict()), 201
 
 #About Us page
 @app.route ('/about')
