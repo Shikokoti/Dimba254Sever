@@ -52,6 +52,16 @@ class Team(db.Model):
         back_populates="teams"
     )
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "league_position": self.league_position,
+            "founded_year": self.founded_year,
+            "stadium": self.stadium,
+            "players": [player.name for player in self.players]
+        }
+
     coach = db.relationship("Coach", back_populates="team", uselist=False)
 
     def to_dict(self):

@@ -7,8 +7,8 @@ from models import db, Player, Team, Coach
 app = Flask(__name__)
 
 #set up db resources 
-app.config ["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dimba.db"
-app.config ["SQLALCHEMY_TRACK_MODIFICATIONS"] = False  #Setup a pin on the map
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///dimba.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app) #Initialize the db with the flask app instance
 
 with app.app_context():
@@ -23,9 +23,11 @@ def index():
 
 #adding views from other modules
 #KPL TEAMS page
-@app.route ('/teams', methods = ['POST'])
-def create_teams ():
+@app.route('/teams', methods=['POST'])
+def create_teams():
     data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid JSON"}), 400
     name = data.get("name")
     league_position = data.get("league_position")
     founded_year = data.get("founded_year")
@@ -36,13 +38,12 @@ def create_teams ():
     return jsonify(team.to_dict()), 201
 
 #About Us page
-@app.route ('/about')
+@app.route('/about')
 def about():
     return "Get to know more about DIMBA254."
 
-#contact Us page
-@app.route ('/contact')
-def contact ():
+@app.route('/contact')
+def contact():
     return "Reach out to DIMBA254 for any inquiries."
 
 @app.route("/contact/<data>")
@@ -68,10 +69,9 @@ def create_player():
 
     return jsonify(player.to_dict()), 201 
 
-@app.route("/Players", methods=['GET'])
+@app.route("/players", methods=['GET'])
 def get_players():
     players = Player.query.all()
-    players_data = [player.to_dict() for player in players]
     return jsonify([player.to_dict() for player in players])
 
 # @app.route("/players/bulk", methods=['POST'])
@@ -94,8 +94,8 @@ def get_players():
 def stats_view(KPL_STATS):
     return f"Statistics of the Kenyan Premier League:, is available here. fot this  team {KPL_STATS}"
 
-@app.route ("/stats")
-def stats ():
+@app.route("/stats")
+def stats():
     return "Statistics of the Kenyan Premier League"
 
 
