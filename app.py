@@ -74,21 +74,7 @@ def get_players():
     players = Player.query.all()
     return jsonify([player.to_dict() for player in players])
 
-# @app.route("/players/bulk", methods=['POST'])
-# def create_players_bulk():
-#     data = request.get_json()
-#     players_data = data.get("players", [])
-#     players = []
-#     for player_data in players_data:
-#         player = Player(
-#             name=player_data.get("name"),
-#             position=player_data.get("position"),
-#             goals_scored=player_data.get("goals_scored", 0)
-#         )
-#         db.session.add(player)
-#         players.append(player)
-#     db.session.commit()
-#     return jsonify([player.to_dict() for player in players]), 201
+
 
 @app.route("/stats/<KPL_STATS>")
 def stats_view(KPL_STATS):
