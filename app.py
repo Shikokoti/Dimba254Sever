@@ -22,8 +22,14 @@ def index():
 
 #adding views from other modules
 #KPL TEAMS page
-@app.route ('/teams')
-def teams ():
+@app.route ('/teams', methods = ['POST'])
+def create_teams ():
+    date = request.get_json()
+    name = date.get("name")
+    league_position = date.get("league_position")
+    founded_year = date.get("founded_year")
+    stadium = date.get("stadium")
+    team = Team(name=name, league_position=league_position, founded_year=founded_year,
     return "2025/2026 Teams in the Kenyan Premier League"
 
 #About Us page
