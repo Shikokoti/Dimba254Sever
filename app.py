@@ -1,3 +1,4 @@
+from datetime import date
 from flask import Flask, request, send_from_directory, jsonify
 from models import db, Player, Team, Coach
 
@@ -24,11 +25,11 @@ def index():
 #KPL TEAMS page
 @app.route ('/teams', methods = ['POST'])
 def create_teams ():
-    date = request.get_json()
-    name = date.get("name")
-    league_position = date.get("league_position")
-    founded_year = date.get("founded_year")
-    stadium = date.get("stadium")
+    data = request.get_json()
+    name = data.get("name")
+    league_position = data.get("league_position")
+    founded_year = data.get("founded_year")
+    stadium = data.get("stadium")
     team = Team(name=name, league_position=league_position, founded_year=founded_year, stadium=stadium)
     db.session.add(team)
     db.session.commit()
