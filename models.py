@@ -44,6 +44,7 @@ class Team(db.Model):
     league_position = db.Column(db.Integer, nullable=False)
     founded_year = db.Column(db.Integer, nullable=False)
     stadium = db.Column(db.String(100), nullable=False)
+    
 
     players = db.relationship(
         "Player",
