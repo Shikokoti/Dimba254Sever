@@ -4,7 +4,6 @@ from routes.teams import teams_bp
 from routes.players import players_bp
 from routes.coaches import coaches_bp
 
-
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
@@ -12,6 +11,10 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
+
+    @app.route("/")
+    def home():
+        return "DIMBA254 API is running 🚀"
 
     app.register_blueprint(teams_bp, url_prefix="/teams")
     app.register_blueprint(players_bp, url_prefix="/players")

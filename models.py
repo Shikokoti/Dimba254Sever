@@ -1,4 +1,4 @@
-from .extensions import db
+from extensions import db
 
 # Association Table (Many-to-Many)
 player_team = db.Table(
