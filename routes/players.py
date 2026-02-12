@@ -33,3 +33,19 @@ def remove_team_from_player(player_id, team_id):
         db.session.commit()
 
     return jsonify({"message": "Team removed from player"}), 200
+
+@players_bp.route("/<int:player_id>", methods=["PUT"])
+def update_player(player_id):           
+    player = Player.query.get_or_404(player_id)
+    data = request.get_json()
+
+    if "name" in data:
+        player.name = data["name"]
+    if "position" in data:
+        player.position = data["position"]
+    if "goals_scored" in data:
+        player.goals_scored = data["goals_scored"]
+
+    db.session.commit()
+
+    return jsonify(player.to_dict()), 200
