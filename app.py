@@ -37,6 +37,11 @@ def create_teams():
     db.session.commit()
     return jsonify(team.to_dict()), 201
 
+@app.route('/teams', methods=['GET'])
+def get_teams():
+    teams = Team.query.all()
+    return jsonify([team.to_dict() for team in teams]), 200
+
 #About Us page
 @app.route('/about')
 def about():
