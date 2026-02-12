@@ -2,6 +2,7 @@ from flask import Flask
 from extensions import db
 from routes.teams import teams_bp
 from routes.players import players_bp
+from routes.coaches import coaches_bp
 
 
 def create_app():
@@ -14,5 +15,6 @@ def create_app():
 
     app.register_blueprint(teams_bp, url_prefix="/teams")
     app.register_blueprint(players_bp, url_prefix="/players")
+    app.register_blueprint(coaches_bp, url_prefix="/coaches")
 
     return app
