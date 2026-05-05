@@ -85,7 +85,7 @@ class Coach(db.Model):
     team_id = db.Column(
         db.Integer,
         db.ForeignKey("team.id"),
-        nullable=False,
+        nullable=True,
         unique=True  # ensures one-to-one
     )
 
