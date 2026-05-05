@@ -101,7 +101,7 @@ Authorization: Bearer <access_token>
 | DELETE | `/teams/<id>/remove-player/<player_id>` | Remove a player from a team |
 | POST | `/teams/<id>/set-coach/<coach_id>` | Assign a coach to a team |
 
-**Create/Update team body:**
+**Create / Update team body:**
 ```json
 {
   "name": "Gor Mahia",
@@ -125,7 +125,7 @@ Authorization: Bearer <access_token>
 | POST | `/players/<id>/add-team/<team_id>` | Add a player to a team |
 | DELETE | `/players/<id>/remove-team/<team_id>` | Remove a player from a team |
 
-**Create/Update player body:**
+**Create / Update player body:**
 ```json
 {
   "name": "John Otieno",
@@ -148,10 +148,12 @@ Authorization: Bearer <access_token>
 | POST | `/coaches/<id>/set-team/<team_id>` | Assign a coach to a team |
 | POST | `/coaches/<id>/remove-team` | Remove a coach from their team |
 
-**Create/Update coach body:**
+**Create / Update coach body:**
 ```json
 {
   "name": "Samuel Onyango",
-  "experience_years": 10
+  "experience_years": 10,
+  "team_id": 1
 }
 ```
+> `team_id` is optional on creation — a coach can be created without a team.
