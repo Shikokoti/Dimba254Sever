@@ -10,6 +10,12 @@ def list_coaches():
     coaches = Coach.query.all()
     return jsonify([coach.to_dict() for coach in coaches]), 200
 
+# --- Get a single coach ---
+@coaches_bp.route("/<int:coach_id>", methods=["GET"])
+def get_coach(coach_id):
+    coach = Coach.query.get_or_404(coach_id)
+    return jsonify(coach.to_dict()), 200
+
 # --- Create a new coach ---
 @coaches_bp.route("/", methods=["POST"])
 def create_coach():

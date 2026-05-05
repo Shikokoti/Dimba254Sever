@@ -23,6 +23,12 @@ def create_player():
     db.session.commit()
     return jsonify(player.to_dict()), 201
 
+# --- Get a single player ---
+@players_bp.route("/<int:player_id>", methods=["GET"])
+def get_player(player_id):
+    player = Player.query.get_or_404(player_id)
+    return jsonify(player.to_dict()), 200
+
 # --- Add a team to a player ---
 @players_bp.route("/<int:player_id>/add-team/<int:team_id>", methods=["POST"])
 def add_team_to_player(player_id, team_id):
