@@ -1,17 +1,21 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
 from models import Player, Team
 from extensions import db
 
 players_bp = Blueprint("players", __name__)
 
+
 # --- List all players ---
 @players_bp.route("/", methods=["GET"])
+@jwt_required()
 def list_players():
     players = Player.query.all()
     return jsonify([player.to_dict() for player in players]), 200
 
 # --- Create a new player ---
 @players_bp.route("/", methods=["POST"])
+@jwt_required()
 def create_player():
     data = request.get_json()
     player = Player(
@@ -25,12 +29,14 @@ def create_player():
 
 # --- Get a single player ---
 @players_bp.route("/<int:player_id>", methods=["GET"])
+@jwt_required()
 def get_player(player_id):
     player = Player.query.get_or_404(player_id)
     return jsonify(player.to_dict()), 200
 
 # --- Add a team to a player ---
 @players_bp.route("/<int:player_id>/add-team/<int:team_id>", methods=["POST"])
+@jwt_required()
 def add_team_to_player(player_id, team_id):
     player = Player.query.get_or_404(player_id)
     team = Team.query.get_or_404(team_id)
@@ -43,6 +49,7 @@ def add_team_to_player(player_id, team_id):
 
 # --- Remove a team from a player ---
 @players_bp.route("/<int:player_id>/remove-team/<int:team_id>", methods=["DELETE"])
+@jwt_required()
 def remove_team_from_player(player_id, team_id):
     player = Player.query.get_or_404(player_id)
     team = Team.query.get_or_404(team_id)
@@ -55,14 +62,17 @@ def remove_team_from_player(player_id, team_id):
 
 # --- Delete a player ---
 @players_bp.route("/<int:player_id>", methods=["DELETE"])
+@jwt_required()
 def delete_player(player_id):
     player = Player.query.get_or_404(player_id)
     db.session.delete(player)
     db.session.commit()
     return jsonify({"message": "Player deleted"}), 200
 
+# --- Update a player ---
 @players_bp.route("/<int:player_id>", methods=["PUT"])
-def update_player(player_id):           
+@jwt_required()
+def update_player(player_id):
     player = Player.query.get_or_404(player_id)
     data = request.get_json()
 

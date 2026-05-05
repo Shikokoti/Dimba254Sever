@@ -1,17 +1,21 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
 from models import Team, Player, Coach
 from extensions import db
 
 teams_bp = Blueprint("teams", __name__)
 
+
 # --- List all teams ---
 @teams_bp.route("/", methods=["GET"])
+@jwt_required()
 def list_teams():
     teams = Team.query.all()
     return jsonify([team.to_dict() for team in teams]), 200
 
 # --- Create a new team ---
 @teams_bp.route("/", methods=["POST"])
+@jwt_required()
 def create_team():
     data = request.get_json()
     team = Team(
@@ -26,12 +30,14 @@ def create_team():
 
 # --- Get a single team ---
 @teams_bp.route("/<int:team_id>", methods=["GET"])
+@jwt_required()
 def get_team(team_id):
     team = Team.query.get_or_404(team_id)
     return jsonify(team.to_dict()), 200
 
 # --- Add player to a team ---
 @teams_bp.route("/<int:team_id>/add-player/<int:player_id>", methods=["POST"])
+@jwt_required()
 def add_player_to_team(team_id, player_id):
     team = Team.query.get_or_404(team_id)
     player = Player.query.get_or_404(player_id)
@@ -44,6 +50,7 @@ def add_player_to_team(team_id, player_id):
 
 # --- Remove player from a team ---
 @teams_bp.route("/<int:team_id>/remove-player/<int:player_id>", methods=["DELETE"])
+@jwt_required()
 def remove_player_from_team(team_id, player_id):
     team = Team.query.get_or_404(team_id)
     player = Player.query.get_or_404(player_id)
@@ -56,6 +63,7 @@ def remove_player_from_team(team_id, player_id):
 
 # --- Set coach for a team ---
 @teams_bp.route("/<int:team_id>/set-coach/<int:coach_id>", methods=["POST"])
+@jwt_required()
 def set_coach_for_team(team_id, coach_id):
     team = Team.query.get_or_404(team_id)
     coach = Coach.query.get_or_404(coach_id)
@@ -67,16 +75,19 @@ def set_coach_for_team(team_id, coach_id):
 
 # --- Delete a team ---
 @teams_bp.route("/<int:team_id>", methods=["DELETE"])
+@jwt_required()
 def delete_team(team_id):
     team = Team.query.get_or_404(team_id)
     db.session.delete(team)
     db.session.commit()
     return jsonify({"message": "Team deleted"}), 200
 
+# --- Update a team ---
 @teams_bp.route("/<int:team_id>", methods=["PUT"])
+@jwt_required()
 def update_team(team_id):
     team = Team.query.get_or_404(team_id)
-    data = request.get_json()  # now this will work
+    data = request.get_json()
 
     if "name" in data:
         team.name = data["name"]
