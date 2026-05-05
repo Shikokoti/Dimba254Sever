@@ -10,6 +10,19 @@ def list_players():
     players = Player.query.all()
     return jsonify([player.to_dict() for player in players]), 200
 
+# --- Create a new player ---
+@players_bp.route("/", methods=["POST"])
+def create_player():
+    data = request.get_json()
+    player = Player(
+        name=data.get("name"),
+        position=data.get("position"),
+        goals_scored=data.get("goals_scored", 0),
+    )
+    db.session.add(player)
+    db.session.commit()
+    return jsonify(player.to_dict()), 201
+
 # --- Add a team to a player ---
 @players_bp.route("/<int:player_id>/add-team/<int:team_id>", methods=["POST"])
 def add_team_to_player(player_id, team_id):

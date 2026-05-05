@@ -10,6 +10,20 @@ def list_teams():
     teams = Team.query.all()
     return jsonify([team.to_dict() for team in teams]), 200
 
+# --- Create a new team ---
+@teams_bp.route("/", methods=["POST"])
+def create_team():
+    data = request.get_json()
+    team = Team(
+        name=data.get("name"),
+        league_position=data.get("league_position"),
+        founded_year=data.get("founded_year"),
+        stadium=data.get("stadium"),
+    )
+    db.session.add(team)
+    db.session.commit()
+    return jsonify(team.to_dict()), 201
+
 # --- Add player to a team ---
 @teams_bp.route("/<int:team_id>/add-player/<int:player_id>", methods=["POST"])
 def add_player_to_team(team_id, player_id):
