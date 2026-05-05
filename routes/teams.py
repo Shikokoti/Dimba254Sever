@@ -59,6 +59,14 @@ def set_coach_for_team(team_id, coach_id):
 
     return jsonify(team.to_dict()), 200
 
+# --- Delete a team ---
+@teams_bp.route("/<int:team_id>", methods=["DELETE"])
+def delete_team(team_id):
+    team = Team.query.get_or_404(team_id)
+    db.session.delete(team)
+    db.session.commit()
+    return jsonify({"message": "Team deleted"}), 200
+
 @teams_bp.route("/<int:team_id>", methods=["PUT"])
 def update_team(team_id):
     team = Team.query.get_or_404(team_id)

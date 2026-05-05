@@ -47,6 +47,14 @@ def remove_team_from_player(player_id, team_id):
 
     return jsonify({"message": "Team removed from player"}), 200
 
+# --- Delete a player ---
+@players_bp.route("/<int:player_id>", methods=["DELETE"])
+def delete_player(player_id):
+    player = Player.query.get_or_404(player_id)
+    db.session.delete(player)
+    db.session.commit()
+    return jsonify({"message": "Player deleted"}), 200
+
 @players_bp.route("/<int:player_id>", methods=["PUT"])
 def update_player(player_id):           
     player = Player.query.get_or_404(player_id)
