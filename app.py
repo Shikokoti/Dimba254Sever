@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 import os
 from extensions import db
 from routes.teams import teams_bp
@@ -18,6 +19,7 @@ def create_app():
     db.init_app(app)
     Migrate(app, db)
     JWTManager(app)
+    CORS(app, origins=["http://localhost:5173"])
 
     @app.route("/")
     def home():
