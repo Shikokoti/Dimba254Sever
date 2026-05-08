@@ -1,5 +1,15 @@
+import re
+import unicodedata
 from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
+
+
+def slugify(name):
+    name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii')
+    name = name.lower()
+    name = re.sub(r'[^a-z0-9\s-]', '', name)
+    name = re.sub(r'\s+', '-', name.strip())
+    return name
 
 
 # -------------------------
@@ -65,9 +75,11 @@ class Team(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    slug = db.Column(db.String(120), unique=True, nullable=True)
     league_position = db.Column(db.Integer, nullable=False)
     founded_year = db.Column(db.Integer, nullable=False)
     stadium = db.Column(db.String(100), nullable=False)
+    logo_url = db.Column(db.String(500), nullable=True)
 
     players = db.relationship(
         "Player",
@@ -86,11 +98,37 @@ class Team(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "slug": self.slug,
             "league_position": self.league_position,
             "founded_year": self.founded_year,
             "stadium": self.stadium,
+            "logo_url": self.logo_url,
             "players": [player.name for player in self.players],
             "coach": self.coach.name if self.coach else None,
+        }
+
+    def to_full_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "slug": self.slug,
+            "league_position": self.league_position,
+            "founded_year": self.founded_year,
+            "stadium": self.stadium,
+            "logo_url": self.logo_url,
+            "players": [
+                {
+                    "id": p.id,
+                    "name": p.name,
+                    "position": p.position,
+                    "goals_scored": p.goals_scored,
+                }
+                for p in self.players
+            ],
+            "coach": {
+                "name": self.coach.name,
+                "experience_years": self.coach.experience_years,
+            } if self.coach else None,
         }
 
 

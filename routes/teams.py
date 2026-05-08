@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
-from models import Team, Player, Coach
+from models import Team, Player, Coach, slugify
 from extensions import db
 
 teams_bp = Blueprint("teams", __name__)
@@ -18,22 +18,32 @@ def list_teams():
 @jwt_required()
 def create_team():
     data = request.get_json()
+    name = data.get("name")
     team = Team(
-        name=data.get("name"),
+        name=name,
+        slug=slugify(name) if name else None,
         league_position=data.get("league_position"),
         founded_year=data.get("founded_year"),
         stadium=data.get("stadium"),
+        logo_url=data.get("logo_url"),
     )
     db.session.add(team)
     db.session.commit()
     return jsonify(team.to_dict()), 201
 
-# --- Get a single team ---
+# --- Get a single team by ID ---
 @teams_bp.route("/<int:team_id>", methods=["GET"])
 @jwt_required()
 def get_team(team_id):
     team = Team.query.get_or_404(team_id)
-    return jsonify(team.to_dict()), 200
+    return jsonify(team.to_full_dict()), 200
+
+# --- Get a single team by slug ---
+@teams_bp.route("/slug/<string:slug>", methods=["GET"])
+@jwt_required()
+def get_team_by_slug(slug):
+    team = Team.query.filter_by(slug=slug).first_or_404()
+    return jsonify(team.to_full_dict()), 200
 
 # --- Add player to a team ---
 @teams_bp.route("/<int:team_id>/add-player/<int:player_id>", methods=["POST"])
@@ -91,12 +101,15 @@ def update_team(team_id):
 
     if "name" in data:
         team.name = data["name"]
+        team.slug = slugify(data["name"])
     if "league_position" in data:
         team.league_position = data["league_position"]
     if "founded_year" in data:
         team.founded_year = data["founded_year"]
     if "stadium" in data:
         team.stadium = data["stadium"]
+    if "logo_url" in data:
+        team.logo_url = data["logo_url"]
 
     db.session.commit()
 
